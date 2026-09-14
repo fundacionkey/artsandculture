@@ -4,42 +4,45 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Key Arts &amp; Culture — Arte que transforma, cultura que multiplica</title>
-<meta name="description" content="Key Arts & Culture es el programa de arte y cultura de Key · Fundación Hernández. Formación artística, memoria, industrias creativas y bienestar." />
+<meta name="description" content="Key Arts & Culture es el programa de arte y cultura de Key · Fundación Hernández. Formación artística, memoria, industrias creativas, difusión y bienestar." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
 <header class="site-header">
-  <div class="container nav-wrap">
+  <div class="nav-wrap">
     <a class="brand" href="index.html">
       <span class="brand-mark">K</span>
       <span class="brand-text">Key <em>Arts &amp; Culture</em></span>
     </a>
-    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/></svg>
+    </button>
     <nav class="nav">
-      <a href="index.html">Inicio</a>
+      <a href="index.html" class="active">Inicio</a>
       <a href="sobre-nosotros.html">Sobre nosotros</a>
       <a href="programas.html">Programas</a>
       <a href="postular.html">Postular</a>
       <a href="contacto.html">Contacto</a>
-      <a class="btn btn-sm" href="postular.html">Postular idea</a>
+      <a class="btn-nav" href="postular.html">Postular idea</a>
     </nav>
   </div>
 </header>
 
 <main>
 
+  <!-- HERO -->
   <section class="hero">
     <div class="container hero-inner">
       <span class="eyebrow">Programa de arte y cultura · Key</span>
       <h1>La llave creativa que transforma y multiplica.</h1>
       <p class="lead">
         Key Arts &amp; Culture usa el arte y la cultura como herramientas de educación,
-        empleabilidad, memoria y bienestar. Formamos, acompañamos y difundimos
-        el talento creativo en El Salvador.
+        empleabilidad, memoria y bienestar. Formamos, acompañamos y difundimos el
+        talento creativo en El Salvador.
       </p>
       <div class="hero-actions">
         <a class="btn" href="postular.html">Postular una idea</a>
@@ -48,78 +51,145 @@
     </div>
   </section>
 
+  <!-- RIBBON: Cinco líneas de acción -->
   <section>
-    <div class="container">
-      <div class="section-head">
-        <h2>Cinco líneas de acción</h2>
-        <p>Un solo programa, cinco caminos para crear oportunidades reales a través del arte y la cultura.</p>
+    <div class="section-head">
+      <h2>Cinco líneas de acción</h2>
+      <p>Un solo programa, cinco caminos para crear oportunidades reales a través del arte y la cultura.</p>
+    </div>
+    <div class="ribbon-wrap">
+      <button class="ribbon-arrow prev" aria-label="Anterior">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+      </button>
+      <div class="ribbon">
+        <article class="card">
+          <div class="card-media" style="background-image:url('https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=70')"></div>
+          <div class="card-body">
+            <span class="kicker">01 · Formación</span>
+            <h3>Formación artística</h3>
+            <p>Talleres de escritura, fotografía, música, teatro, diseño y audiovisual.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-media" style="background-image:url('https://images.unsplash.com/photo-1516302752625-fcc3c50ae61f?w=800&q=70')"></div>
+          <div class="card-body">
+            <span class="kicker">02 · Memoria</span>
+            <h3>Memoria y patrimonio</h3>
+            <p>Con Cosecha, convertimos historias de vida en archivo sonoro y visual.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-media" style="background-image:url('https://images.unsplash.com/photo-1558655146-d09347e92766?w=800&q=70')"></div>
+          <div class="card-body">
+            <span class="kicker">03 · Industrias</span>
+            <h3>Industrias creativas</h3>
+            <p>Con Windsor: portafolios, marca personal y gestión de proyectos culturales.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-media" style="background-image:url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&q=70')"></div>
+          <div class="card-body">
+            <span class="kicker">04 · Difusión</span>
+            <h3>Difusión y curaduría</h3>
+            <p>Con Heliot Media: publicaciones, exposiciones, festivales y podcast.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-media" style="background-image:url('https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800&q=70')"></div>
+          <div class="card-body">
+            <span class="kicker">05 · Bienestar</span>
+            <h3>Arte y bienestar</h3>
+            <p>Arte terapia, inclusión y trabajo creativo con jóvenes y adultos mayores.</p>
+          </div>
+        </article>
       </div>
-      <div class="grid grid-3">
-
-        <article class="card">
-          <div class="num">01</div>
-          <h3>Formación artística</h3>
-          <p>Talleres de escritura, fotografía, música, teatro, diseño y audiovisual para jóvenes y comunidades.</p>
-        </article>
-
-        <article class="card">
-          <div class="num">02</div>
-          <h3>Memoria y patrimonio</h3>
-          <p>Con Cosecha, convertimos historias de vida en archivo sonoro, visual y editorial.</p>
-        </article>
-
-        <article class="card">
-          <div class="num">03</div>
-          <h3>Industrias creativas</h3>
-          <p>Con Windsor, portafolios, marca personal, gestión de proyectos culturales y becas.</p>
-        </article>
-
-        <article class="card">
-          <div class="num">04</div>
-          <h3>Difusión y curaduría</h3>
-          <p>Con Heliot Media, publicaciones, exposiciones, festivales y podcast cultural.</p>
-        </article>
-
-        <article class="card">
-          <div class="num">05</div>
-          <h3>Arte y bienestar</h3>
-          <p>Arte terapia, inclusión y trabajo creativo con jóvenes, adultos mayores y comunidad LGBTQ+.</p>
-        </article>
-
-      </div>
+      <button class="ribbon-arrow next" aria-label="Siguiente">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59 10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
+      </button>
     </div>
   </section>
 
+  <!-- SPLIT: Cómo lo hacemos -->
   <section>
-    <div class="container split">
+    <div class="split">
       <div>
-        <span class="eyebrow">Cómo lo hacemos</span>
+        <span class="eyebrow" style="color:var(--terracotta); font-size:.75rem; font-weight:500; letter-spacing:.12em; text-transform:uppercase; display:inline-block; margin-bottom:12px;">Cómo lo hacemos</span>
         <h2>Método, acompañamiento y mérito.</h2>
-        <p style="margin-top:1rem;">
-          Trabajamos con convocatorias abiertas evaluadas por mérito, talleres presenciales
-          e híbridos, residencias creativas y proyectos comunitarios. Cada proceso termina
-          en una obra, una publicación, una exhibición o una beca.
+        <p>
+          Trabajamos con convocatorias abiertas evaluadas por mérito, talleres
+          presenciales e híbridos, residencias creativas y proyectos comunitarios.
+          Cada proceso termina en una obra, una publicación, una exhibición o una beca.
         </p>
-        <p style="margin-top:1rem;">
-          No partimos de cero: articulamos lo que ya existe en Key — Cosecha, Windsor,
-          Heliot Media, BeQueer y Jóvenes Key — y lo abrimos a más personas.
+        <p>
+          No partimos de cero: articulamos lo que ya existe en Key — Cosecha,
+          Windsor, Heliot Media, BeQueer y Jóvenes Key — y lo abrimos a más
+          personas, territorios y disciplinas.
         </p>
+        <a class="btn btn-ghost" href="sobre-nosotros.html">Conocer más</a>
       </div>
-      <div class="visual">“Arte que transforma, cultura que multiplica.”</div>
+      <div class="card-media" style="aspect-ratio:4/3; border-radius:12px; background-image:url('https://images.unsplash.com/photo-1531058020387-3be344556be6?w=1000&q=70')"></div>
     </div>
   </section>
 
+  <!-- RIBBON: Destacados -->
   <section>
-    <div class="container quote">
-      <p>“Una oportunidad puede transformar una vida. Una obra puede transformar una comunidad.”</p>
-      <span class="author">— Key Arts &amp; Culture</span>
+    <div class="section-head">
+      <h2>Destacados del programa</h2>
+      <p>Una selección de proyectos, historias y procesos del ecosistema creativo de Key.</p>
+    </div>
+    <div class="ribbon-wrap">
+      <div class="ribbon">
+        <article class="card card-lg">
+          <div class="card-media" style="background-image:url('https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=1000&q=70')"></div>
+          <div class="card-body">
+            <span class="kicker">Memoria</span>
+            <h3>Cosecha: historias de vida del oriente</h3>
+            <p>Archivo sonoro y visual de adultos mayores, construido junto a jóvenes del programa.</p>
+          </div>
+        </article>
+        <article class="card card-lg">
+          <div class="card-media" style="background-image:url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1000&q=70')"></div>
+          <div class="card-body">
+            <span class="kicker">Editorial</span>
+            <h3>Heliot Media: periodismo cultural</h3>
+            <p>Publicaciones, exposiciones y podcast que difunden el talento creativo salvadoreño.</p>
+          </div>
+        </article>
+        <article class="card card-lg">
+          <div class="card-media" style="background-image:url('https://images.unsplash.com/photo-1558655146-d09347e92766?w=1000&q=70')"></div>
+          <div class="card-body">
+            <span class="kicker">Industrias creativas</span>
+            <h3>Windsor: portafolios y marca personal</h3>
+            <p>Formación, mentoría y becas para jóvenes que quieren vivir del diseño y la comunicación.</p>
+          </div>
+        </article>
+        <article class="card card-lg">
+          <div class="card-media" style="background-image:url('https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1000&q=70')"></div>
+          <div class="card-body">
+            <span class="kicker">Formación</span>
+            <h3>Talleres abiertos</h3>
+            <p>Escritura, fotografía, música y audiovisual para jóvenes y comunidades.</p>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
+  <!-- QUOTE -->
   <section>
-    <div class="container" style="text-align:center;">
-      <h2>¿Tienes una idea creativa?</h2>
-      <p style="max-width:56ch; margin:1rem auto 2rem; color:var(--muted);">
+    <div class="quote">
+      <div class="quote-inner">
+        <p>“Una oportunidad puede transformar una vida. Una obra puede transformar una comunidad.”</p>
+        <span class="author">— Key Arts &amp; Culture</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <div class="container" style="text-align:center; max-width:720px;">
+      <h2 style="margin-bottom:12px;">¿Tienes una idea creativa?</h2>
+      <p style="color:var(--muted); margin-bottom:24px;">
         Las ideas se evalúan por su mérito, no por quién las envía. La autoría está protegida.
       </p>
       <a class="btn" href="postular.html">Postular ahora</a>
@@ -129,11 +199,11 @@
 </main>
 
 <footer class="site-footer">
-  <div class="container footer-grid">
+  <div class="footer-grid">
     <div>
-      <div class="brand" style="margin-bottom:.8rem;">
+      <div class="footer-brand">
         <span class="brand-mark">K</span>
-        <span class="brand-text" style="color:#fff;">Key <em>Arts &amp; Culture</em></span>
+        <span class="brand-text">Key <em>Arts &amp; Culture</em></span>
       </div>
       <p>Programa de arte y cultura de Key · Fundación Hernández. El Salvador.</p>
     </div>
@@ -156,18 +226,29 @@
       <a href="https://fundacionkey.github.io/key/contactanos.html" target="_blank" rel="noopener">Formulario Key</a>
     </div>
   </div>
-  <div class="container footer-bottom">
+  <div class="footer-bottom">
     <span>© 2026 Key Arts &amp; Culture · Fundación Hernández</span>
     <span>Hecho con arte y memoria.</span>
   </div>
 </footer>
 
 <script>
+  // Menú móvil
   const toggle = document.querySelector('.nav-toggle');
   const nav = document.querySelector('.nav');
   toggle?.addEventListener('click', () => {
     const open = nav.classList.toggle('open');
     toggle.setAttribute('aria-expanded', open);
+  });
+
+  // Flechas de ribbon
+  document.querySelectorAll('.ribbon-wrap').forEach(wrap => {
+    const ribbon = wrap.querySelector('.ribbon');
+    const prev = wrap.querySelector('.ribbon-arrow.prev');
+    const next = wrap.querySelector('.ribbon-arrow.next');
+    const step = 300;
+    prev?.addEventListener('click', () => ribbon.scrollBy({ left: -step, behavior: 'smooth' }));
+    next?.addEventListener('click', () => ribbon.scrollBy({ left: step, behavior: 'smooth' }));
   });
 </script>
 </body>
