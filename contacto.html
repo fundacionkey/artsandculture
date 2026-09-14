@@ -7,25 +7,27 @@
 <meta name="description" content="Escríbenos para postular, aliarte o sumarte a Key Arts & Culture." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
 <header class="site-header">
-  <div class="container nav-wrap">
+  <div class="nav-wrap">
     <a class="brand" href="index.html">
       <span class="brand-mark">K</span>
       <span class="brand-text">Key <em>Arts &amp; Culture</em></span>
     </a>
-    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/></svg>
+    </button>
     <nav class="nav">
       <a href="index.html">Inicio</a>
       <a href="sobre-nosotros.html">Sobre nosotros</a>
       <a href="programas.html">Programas</a>
       <a href="postular.html">Postular</a>
-      <a href="contacto.html">Contacto</a>
-      <a class="btn btn-sm" href="postular.html">Postular idea</a>
+      <a href="contacto.html" class="active">Contacto</a>
+      <a class="btn-nav" href="postular.html">Postular idea</a>
     </nav>
   </div>
 </header>
@@ -44,11 +46,13 @@
   </section>
 
   <section>
-    <div class="container split">
-
+    <div class="split">
       <div>
-        <h2>Escríbenos</h2>
-        <form action="https://formspree.io/f/tu-id" method="POST" style="margin-top:1.2rem;">
+        <div class="section-head-inline">
+          <h2>Escríbenos</h2>
+          <p>Completa el formulario y te responderemos lo antes posible.</p>
+        </div>
+        <form action="https://formspree.io/f/tu-id" method="POST" style="margin-top:16px;">
           <div class="field">
             <label for="nombre">Nombre</label>
             <input id="nombre" name="nombre" type="text" required />
@@ -72,50 +76,53 @@
             <label for="mensaje">Mensaje</label>
             <textarea id="mensaje" name="mensaje" required></textarea>
           </div>
-          <button class="btn" type="submit">Enviar mensaje</button>
+          <div>
+            <button class="btn" type="submit">Enviar mensaje</button>
+          </div>
         </form>
       </div>
 
       <div>
-        <h2>Otras vías</h2>
+        <div class="section-head-inline">
+          <h2>Otras vías</h2>
+          <p>Si prefieres, también puedes contactarnos por estos canales.</p>
+        </div>
 
-        <p style="margin-top:1rem;">
-          <strong>Formulario general de Key · Fundación Hernández:</strong><br />
-          <a href="https://fundacionkey.github.io/key/contactanos.html" target="_blank" rel="noopener" style="text-decoration:underline;">
-            fundacionkey.github.io/key/contactanos.html
-          </a>
-        </p>
-
-        <p style="margin-top:1rem;">
-          <strong>Blog NewKey:</strong><br />
-          <a href="https://the-newkey.blogspot.com/" target="_blank" rel="noopener" style="text-decoration:underline;">
-            the-newkey.blogspot.com
-          </a>
-        </p>
-
-        <p style="margin-top:1rem;">
-          <strong>Sitio principal de Key:</strong><br />
-          <a href="https://fundacionkey.github.io/key/" target="_blank" rel="noopener" style="text-decoration:underline;">
-            fundacionkey.github.io/key/
-          </a>
-        </p>
-
-        <div class="visual" style="margin-top:2rem;">
-          “La llave creativa.”
+        <div class="grid" style="grid-template-columns:1fr; gap:16px; margin-top:16px;">
+          <article class="card" style="width:100%;">
+            <div class="card-body">
+              <span class="kicker">Formulario general</span>
+              <h3>Key · Fundación Hernández</h3>
+              <p><a href="https://fundacionkey.github.io/key/contactanos.html" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:underline;">fundacionkey.github.io/key/contactanos.html</a></p>
+            </div>
+          </article>
+          <article class="card" style="width:100%;">
+            <div class="card-body">
+              <span class="kicker">Blog</span>
+              <h3>NewKey</h3>
+              <p><a href="https://the-newkey.blogspot.com/" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:underline;">the-newkey.blogspot.com</a></p>
+            </div>
+          </article>
+          <article class="card" style="width:100%;">
+            <div class="card-body">
+              <span class="kicker">Sitio principal</span>
+              <h3>Key · Fundación</h3>
+              <p><a href="https://fundacionkey.github.io/key/" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:underline;">fundacionkey.github.io/key/</a></p>
+            </div>
+          </article>
         </div>
       </div>
-
     </div>
   </section>
 
 </main>
 
 <footer class="site-footer">
-  <div class="container footer-grid">
+  <div class="footer-grid">
     <div>
-      <div class="brand" style="margin-bottom:.8rem;">
+      <div class="footer-brand">
         <span class="brand-mark">K</span>
-        <span class="brand-text" style="color:#fff;">Key <em>Arts &amp; Culture</em></span>
+        <span class="brand-text">Key <em>Arts &amp; Culture</em></span>
       </div>
       <p>Programa de arte y cultura de Key · Fundación Hernández. El Salvador.</p>
     </div>
@@ -138,7 +145,7 @@
       <a href="https://fundacionkey.github.io/key/contactanos.html" target="_blank" rel="noopener">Formulario Key</a>
     </div>
   </div>
-  <div class="container footer-bottom">
+  <div class="footer-bottom">
     <span>© 2026 Key Arts &amp; Culture · Fundación Hernández</span>
     <span>Hecho con arte y memoria.</span>
   </div>
