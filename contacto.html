@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contacto — Key Arts &amp; Culture</title>
+<meta name="description" content="Escríbenos para postular, aliarte o sumarte a Key Arts & Culture." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">K</span>
+      <span class="brand-text">Key <em>Arts &amp; Culture</em></span>
+    </a>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <nav class="nav">
+      <a href="index.html">Inicio</a>
+      <a href="sobre-nosotros.html">Sobre nosotros</a>
+      <a href="programas.html">Programas</a>
+      <a href="postular.html">Postular</a>
+      <a href="contacto.html">Contacto</a>
+      <a class="btn btn-sm" href="postular.html">Postular idea</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <span class="eyebrow">Contacto</span>
+      <h1>Hablemos.</h1>
+      <p class="lead">
+        ¿Quieres aliarte, ser tallerista, donar, o simplemente saber más?
+        Escríbenos y te respondemos.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container split">
+
+      <div>
+        <h2>Escríbenos</h2>
+        <form action="https://formspree.io/f/tu-id" method="POST" style="margin-top:1.2rem;">
+          <div class="field">
+            <label for="nombre">Nombre</label>
+            <input id="nombre" name="nombre" type="text" required />
+          </div>
+          <div class="field">
+            <label for="email">Correo</label>
+            <input id="email" name="email" type="email" required />
+          </div>
+          <div class="field">
+            <label for="asunto">Asunto</label>
+            <select id="asunto" name="asunto">
+              <option>Quiero postular una idea</option>
+              <option>Quiero ser tallerista</option>
+              <option>Quiero aliarme</option>
+              <option>Quiero donar</option>
+              <option>Prensa / medios</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="mensaje">Mensaje</label>
+            <textarea id="mensaje" name="mensaje" required></textarea>
+          </div>
+          <button class="btn" type="submit">Enviar mensaje</button>
+        </form>
+      </div>
+
+      <div>
+        <h2>Otras vías</h2>
+        <p style="margin-top:1rem;">
+          <strong>Correo:</strong><br />
+          <a href="mailto:keyarts@fundacionkey.org" style="text-decoration:underline;">keyarts@fundacionkey.org</a>
+        </p>
+        <p style="margin-top:1rem;">
+          <strong>Key · Fundación Hernández:</strong><br />
+          <a href="https://fundacionkey.github.io/key/contactanos.html" target="_blank" rel="noopener" style="text-decoration:underline;">Formulario general</a>
+        </p>
+        <p style="margin-top:1rem;">
+          <strong>Redes:</strong><br />
+          <a href="https://the-newkey.blogspot.com/" target="_blank" rel="noopener" style="text-decoration:underline;">Blog NewKey</a>
+        </p>
+
+        <div class="visual" style="margin-top:2rem;">
+          “La llave creativa.”
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <div class="brand" style="margin-bottom:.8rem;">
+        <span class="brand-mark">K</span>
+        <span class="brand-text" style="color:#fff;">Key <em>Arts &amp; Culture</em></span>
+      </div>
+      <p>Programa de arte y cultura de Key · Fundación Hernández. El Salvador.</p>
+    </div>
+    <div>
+      <h4>Programa</h4>
+      <a href="sobre-nosotros.html">Sobre nosotros</a>
+      <a href="programas.html">Líneas de acción</a>
+      <a href="postular.html">Postular</a>
+    </div>
+    <div>
+      <h4>Key</h4>
+      <a href="https://fundacionkey.github.io/key/" target="_blank" rel="noopener">Key · Fundación</a>
+      <a href="https://fundacionkey.github.io/key/cosecha.html" target="_blank" rel="noopener">Cosecha</a>
+      <a href="https://fundacionkey.github.io/windsor/" target="_blank" rel="noopener">Windsor</a>
+      <a href="https://fundacionkey.github.io/Heliot-Media/" target="_blank" rel="noopener">Heliot Media</a>
+    </div>
+    <div>
+      <h4>Contacto</h4>
+      <a href="contacto.html">Escríbenos</a>
+      <a href="mailto:keyarts@fundacionkey.org">keyarts@fundacionkey.org</a>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© 2026 Key Arts &amp; Culture · Fundación Hernández</span>
+    <span>Hecho con arte y memoria.</span>
+  </div>
+</footer>
+
+<script>
+  const toggle = document.querySelector('.nav-toggle');
+  const nav = document.querySelector('.nav');
+  toggle?.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+</script>
+</body>
+</html>
