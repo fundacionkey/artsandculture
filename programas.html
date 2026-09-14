@@ -7,33 +7,37 @@
 <meta name="description" content="Cinco líneas de acción: formación artística, memoria, industrias creativas, difusión y bienestar." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
 <header class="site-header">
-  <div class="container nav-wrap">
+  <div class="nav-wrap">
     <a class="brand" href="index.html">
       <span class="brand-mark">K</span>
       <span class="brand-text">Key <em>Arts &amp; Culture</em></span>
     </a>
-    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/></svg>
+    </button>
     <nav class="nav">
       <a href="index.html">Inicio</a>
       <a href="sobre-nosotros.html">Sobre nosotros</a>
-      <a href="programas.html">Programas</a>
+      <a href="programas.html" class="active">Programas</a>
       <a href="postular.html">Postular</a>
       <a href="contacto.html">Contacto</a>
-      <a class="btn btn-sm" href="postular.html">Postular idea</a>
+      <a class="btn-nav" href="postular.html">Postular idea</a>
     </nav>
   </div>
 </header>
 
 <main>
 
-  <section class="hero">
-    <div class="container hero-inner">
+  <section class="hero-image">
+    <div class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1600&q=70')"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
       <span class="eyebrow">Programas</span>
       <h1>Cinco caminos, una misma llave.</h1>
       <p class="lead">
@@ -44,81 +48,78 @@
   </section>
 
   <section>
-    <div class="container">
-
-      <article class="card" style="margin-bottom:1.4rem;">
-        <div class="num">01</div>
-        <h3>Formación artística</h3>
-        <p style="margin-top:.6rem;">
-          Talleres de escritura, fotografía, música, teatro, diseño y audiovisual.
-          Dirigidos a jóvenes, comunidades y adultos mayores. Presenciales e híbridos,
-          con mentoría y cierre en muestra pública.
-        </p>
-        <p style="margin-top:.8rem;"><strong>Aliados:</strong> Jóvenes Key, Windsor Careers, Heliot Media.</p>
+    <div class="program-list">
+      <article class="program-item">
+        <div class="program-num">01</div>
+        <div>
+          <h3>Formación artística</h3>
+          <p>Talleres de escritura, fotografía, música, teatro, diseño y audiovisual. Dirigidos a jóvenes, comunidades y adultos mayores. Presenciales e híbridos, con mentoría y cierre en muestra pública.</p>
+          <p class="aliados"><strong>Aliados:</strong> Jóvenes Key, Windsor Careers, Heliot Media.</p>
+        </div>
       </article>
-
-      <article class="card" style="margin-bottom:1.4rem;">
-        <div class="num">02</div>
-        <h3>Memoria y patrimonio</h3>
-        <p style="margin-top:.6rem;">
-          Con Cosecha, convertimos historias de vida de adultos mayores en archivo sonoro,
-          visual y editorial. Podcast, libro, exposición y archivo digital.
-        </p>
-        <p style="margin-top:.8rem;"><strong>Aliados:</strong> Cosecha, Heliot Media.</p>
+      <article class="program-item">
+        <div class="program-num">02</div>
+        <div>
+          <h3>Memoria y patrimonio</h3>
+          <p>Con Cosecha, convertimos historias de vida de adultos mayores en archivo sonoro, visual y editorial. Podcast, libro, exposición y archivo digital.</p>
+          <p class="aliados"><strong>Aliados:</strong> Cosecha, Heliot Media.</p>
+        </div>
       </article>
-
-      <article class="card" style="margin-bottom:1.4rem;">
-        <div class="num">03</div>
-        <h3>Industrias creativas</h3>
-        <p style="margin-top:.6rem;">
-          Con Windsor, formamos en portafolios, marca personal, gestión de proyectos
-          culturales y comunicación. Becas y pasantías para jóvenes creativos.
-        </p>
-        <p style="margin-top:.8rem;"><strong>Aliados:</strong> Windsor, Windsor One, BeQueer, BK2.</p>
+      <article class="program-item">
+        <div class="program-num">03</div>
+        <div>
+          <h3>Industrias creativas</h3>
+          <p>Con Windsor, formamos en portafolios, marca personal, gestión de proyectos culturales y comunicación. Becas y pasantías para jóvenes creativos.</p>
+          <p class="aliados"><strong>Aliados:</strong> Windsor, Windsor One, BeQueer, BK2.</p>
+        </div>
       </article>
-
-      <article class="card" style="margin-bottom:1.4rem;">
-        <div class="num">04</div>
-        <h3>Difusión y curaduría</h3>
-        <p style="margin-top:.6rem;">
-          Con Heliot Media, publicamos, curamos y difundimos. Exposiciones, festivales,
-          podcast, periodismo cultural y producción audiovisual.
-        </p>
-        <p style="margin-top:.8rem;"><strong>Aliados:</strong> Heliot Media, Heliot Academy.</p>
+      <article class="program-item">
+        <div class="program-num">04</div>
+        <div>
+          <h3>Difusión y curaduría</h3>
+          <p>Con Heliot Media, publicamos, curamos y difundimos. Exposiciones, festivales, podcast, periodismo cultural y producción audiovisual.</p>
+          <p class="aliados"><strong>Aliados:</strong> Heliot Media, Heliot Academy.</p>
+        </div>
       </article>
-
-      <article class="card">
-        <div class="num">05</div>
-        <h3>Arte y bienestar</h3>
-        <p style="margin-top:.6rem;">
-          Arte terapia, inclusión y trabajo creativo con jóvenes, adultos mayores y
-          comunidad LGBTQ+. Espacios seguros, salvaguardas y acompañamiento psicosocial.
-        </p>
-        <p style="margin-top:.8rem;"><strong>Aliados:</strong> BeQueer, Cosecha.</p>
+      <article class="program-item">
+        <div class="program-num">05</div>
+        <div>
+          <h3>Arte y bienestar</h3>
+          <p>Arte terapia, inclusión y trabajo creativo con jóvenes, adultos mayores y comunidad LGBTQ+. Espacios seguros, salvaguardas y acompañamiento psicosocial.</p>
+          <p class="aliados"><strong>Aliados:</strong> BeQueer, Cosecha.</p>
+        </div>
       </article>
-
     </div>
   </section>
 
   <section>
-    <div class="container" style="text-align:center;">
-      <h2>¿Quieres sumarte?</h2>
-      <p style="max-width:56ch; margin:1rem auto 2rem; color:var(--muted);">
+    <div class="quote">
+      <div class="quote-inner">
+        <p>“Una obra puede transformar una comunidad.”</p>
+        <span class="author">— Key Arts &amp; Culture</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container" style="text-align:center; max-width:720px;">
+      <h2 style="margin-bottom:12px;">¿Quieres sumarte?</h2>
+      <p style="color:var(--muted); margin-bottom:24px;">
         Puedes postular una idea, ofrecerte como tallerista, aliado o voluntario.
       </p>
       <a class="btn" href="postular.html">Postular</a>
-      <a class="btn btn-ghost" href="contacto.html" style="margin-left:.6rem;">Contacto</a>
+      <a class="btn btn-ghost" href="contacto.html" style="margin-left:8px;">Contacto</a>
     </div>
   </section>
 
 </main>
 
 <footer class="site-footer">
-  <div class="container footer-grid">
+  <div class="footer-grid">
     <div>
-      <div class="brand" style="margin-bottom:.8rem;">
+      <div class="footer-brand">
         <span class="brand-mark">K</span>
-        <span class="brand-text" style="color:#fff;">Key <em>Arts &amp; Culture</em></span>
+        <span class="brand-text">Key <em>Arts &amp; Culture</em></span>
       </div>
       <p>Programa de arte y cultura de Key · Fundación Hernández. El Salvador.</p>
     </div>
@@ -141,7 +142,7 @@
       <a href="https://fundacionkey.github.io/key/contactanos.html" target="_blank" rel="noopener">Formulario Key</a>
     </div>
   </div>
-  <div class="container footer-bottom">
+  <div class="footer-bottom">
     <span>© 2026 Key Arts &amp; Culture · Fundación Hernández</span>
     <span>Hecho con arte y memoria.</span>
   </div>
