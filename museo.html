@@ -7,8 +7,144 @@
 <meta name="description" content="Museo Digital de Key Arts & Culture. Recorre el arte y la cultura de América del Norte, América Central, Asia y Europa." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://commons.wikimedia.org" />
+<link rel="preconnect" href="https://images.unsplash.com" />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="styles.css" />
+
+<style>
+/* ============ Optimización de imágenes en tarjetas ============ */
+.card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background: var(--surface-2);
+}
+.card-media {
+  background: var(--surface-2);
+}
+
+/* ============ Modal del museo ============ */
+.museum-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, .78);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s ease, visibility 0s linear .25s;
+}
+.museum-modal.open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .25s ease;
+}
+.museum-modal__inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 980px;
+  max-height: 90vh;
+  transform: translateY(18px) scale(.98);
+  transition: transform .3s cubic-bezier(.2,.6,.2,1);
+  box-shadow: 0 24px 64px rgba(0,0,0,.4);
+}
+.museum-modal.open .museum-modal__inner {
+  transform: translateY(0) scale(1);
+}
+.museum-modal__media {
+  position: relative;
+  background: #111;
+  min-height: 320px;
+  overflow: hidden;
+}
+.museum-modal__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  position: absolute;
+  inset: 0;
+}
+.museum-modal__content {
+  padding: 36px 36px 32px;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+.museum-modal__kicker {
+  font-size: .6875rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  display: inline-block;
+  margin-bottom: 12px;
+}
+.museum-modal__title {
+  font-size: 1.75rem;
+  font-weight: 400;
+  letter-spacing: -.01em;
+  line-height: 1.2;
+  margin-bottom: 16px;
+  color: var(--ink);
+}
+.museum-modal__short {
+  font-size: 1rem;
+  color: var(--ink-2);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.museum-modal__extended p {
+  font-size: .9375rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+.museum-modal__extended p:last-child { margin-bottom: 0; }
+.museum-modal__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0,0,0,.55);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+  transition: background .15s;
+}
+.museum-modal__close:hover { background: rgba(0,0,0,.8); }
+.museum-modal__close svg { width: 18px; height: 18px; }
+
+@media (max-width: 820px) {
+  .museum-modal { padding: 12px; }
+  .museum-modal__inner {
+    grid-template-columns: 1fr;
+    max-height: 92vh;
+  }
+  .museum-modal__media { aspect-ratio: 4/3; min-height: 0; }
+  .museum-modal__content { padding: 24px 20px 24px; max-height: none; }
+  .museum-modal__title { font-size: 1.375rem; }
+}
+
+/* Cursor pointer en tarjetas del museo */
+.museum-card { cursor: pointer; }
+</style>
 </head>
 <body>
 
@@ -37,7 +173,7 @@
 
   <!-- HERO -->
   <section class="hero-image">
-    <div class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=1600&q=70')"></div>
+    <div class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=1600&q=60')"></div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <span class="eyebrow">Museo Digital · 100% en línea</span>
@@ -45,7 +181,7 @@
       <p class="lead">
         Sin sede física, sin fronteras. Recorre monumentos, pinturas y lugares
         emblemáticos de América del Norte, América Central, Asia y Europa.
-        Conoce las historias detrás de cada obra.
+        Toca cualquier pieza para conocer su historia.
       </p>
       <div class="hero-actions" style="margin-top:24px;">
         <a class="btn" href="#norteamerica" style="background:#fff; color:var(--ink);">América del Norte</a>
@@ -62,9 +198,8 @@
       <span class="eyebrow" style="color:var(--terracotta); font-size:.75rem; font-weight:500; letter-spacing:.12em; text-transform:uppercase; display:inline-block; margin-bottom:12px;">Bienvenida</span>
       <h2 style="margin-bottom:16px;">Cuatro regiones, un solo museo.</h2>
       <p style="color:var(--muted); font-size:1.05rem;">
-        Este museo digital reúne 50 piezas emblemáticas del arte y la cultura universal.
-        Cada sección incluye monumentos, pinturas, lugares históricos y el contexto
-        que los hace únicos. El objetivo es que conozcas, disfrutes y te inspires.
+        50 piezas emblemáticas del arte y la cultura universal. Toca cualquier
+        tarjeta para ver la ficha completa con imagen ampliada e historia.
       </p>
     </div>
   </section>
@@ -77,105 +212,181 @@
       <p>Monumentos icónicos, arte moderno y la historia de una región que definió el siglo XX.</p>
     </div>
     <div class="ribbon-wrap">
-      <button class="ribbon-arrow prev" aria-label="Anterior">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-      </button>
+      <button class="ribbon-arrow prev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
       <div class="ribbon">
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Golden_Gate_Bridge_(San_Francisco).jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Puente Golden Gate"
+          data-kicker="Monumento · Estados Unidos"
+          data-region="América del Norte"
+          data-short="Inaugurado en 1937, fue el puente colgante más largo del mundo. Su color “naranja internacional” y su estilo Art Déco lo convirtieron en un ícono de San Francisco."
+          data-extended="<p>El Golden Gate cruza el estrecho que conecta la bahía de San Francisco con el océano Pacífico. Fue diseñado por Joseph Strauss con la colaboración de Leon Moisseiff, Charles Alton Ellis e Irving Morrow.</p><p>Se construyó en solo cuatro años y dos meses, y costó 35 millones de dólares de la época. Su color naranja fue una elección de Irving Morrow, quien consideró que contrastaba mejor con la niebla que el clásico gris naval.</p><p>Es considerado una de las maravillas de la ingeniería moderna y un símbolo de la ciudad de San Francisco y de Estados Unidos.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Golden_Gate_Bridge_(San_Francisco).jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Golden_Gate_Bridge_(San_Francisco).jpg?width=600" alt="Puente Golden Gate" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · Estados Unidos</span>
             <h3>Puente Golden Gate</h3>
-            <p>Inaugurado en 1937, fue el puente colgante más largo del mundo. Su color "naranja internacional" y su estilo Art Déco lo convirtieron en un ícono de San Francisco.</p>
+            <p>Inaugurado en 1937, fue el puente colgante más largo del mundo.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Statue_of_Liberty_7.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Estatua de la Libertad"
+          data-kicker="Monumento · Estados Unidos"
+          data-region="América del Norte"
+          data-short="Regalo de Francia a Estados Unidos en 1886. Diseñada por Frédéric Auguste Bartholdi con estructura interna de Gustave Eiffel."
+          data-extended="<p>La Estatua de la Libertad representa a Libertas, la diosa romana de la libertad. Fue un regalo del pueblo francés para conmemorar el centenario de la independencia estadounidense.</p><p>Su estructura interna de hierro fue diseñada por Gustave Eiffel, el mismo ingeniero de la Torre Eiffel. La estatua fue desmontada en 350 piezas en Francia y enviada por barco a Nueva York.</p><p>Mide 93 metros incluyendo el pedestal. En su mano derecha sostiene una antorcha y en la izquierda una tabla con la fecha de la Declaración de Independencia.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Statue_of_Liberty_7.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Statue_of_Liberty_7.jpg?width=600" alt="Estatua de la Libertad" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · Estados Unidos</span>
             <h3>Estatua de la Libertad</h3>
-            <p>Regalo de Francia a Estados Unidos en 1886. Diseñada por Frédéric Auguste Bartholdi con estructura interna de Gustave Eiffel, representa a Libertas, la diosa romana de la libertad.</p>
+            <p>Regalo de Francia a Estados Unidos en 1886.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Mount_Rushmore_National_Memorial.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Monte Rushmore"
+          data-kicker="Monumento · Estados Unidos"
+          data-region="América del Norte"
+          data-short="Esculpido entre 1927 y 1941 por Gutzon Borglum en las Black Hills de Dakota del Sur."
+          data-extended="<p>El Monumento Nacional Monte Rushmore presenta las cabezas de cuatro presidentes estadounidenses: George Washington, Thomas Jefferson, Theodore Roosevelt y Abraham Lincoln.</p><p>Fue esculpido por Gutzon Borglum y su equipo con explosivos y martillos neumáticos. Cada rostro mide 18 metros de alto.</p><p>Trabajaron en él cerca de 400 obreros durante 14 años. Originalmente iba a incluir figuras de cuerpo completo, pero el proyecto se detuvo por falta de fondos.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Mount_Rushmore_National_Memorial.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Mount_Rushmore_National_Memorial.jpg?width=600" alt="Monte Rushmore" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · Estados Unidos</span>
             <h3>Monte Rushmore</h3>
-            <p>Esculpido entre 1927 y 1941 por Gutzon Borglum en las Black Hills de Dakota del Sur. Las caras de Washington, Jefferson, Roosevelt y Lincoln miden 18 metros de alto cada una.</p>
+            <p>Esculpido entre 1927 y 1941 en las Black Hills.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://images.unsplash.com/photo-1474047683173-9c2e5c5f3d0e?w=1000&q=70')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Gran Cañón del Colorado"
+          data-kicker="Lugar · Estados Unidos"
+          data-region="América del Norte"
+          data-short="Una de las siete maravillas naturales del mundo. Tallado por el río Colorado durante 6 millones de años."
+          data-extended="<p>El Gran Cañón tiene 446 km de longitud y hasta 1.800 metros de profundidad. Es una de las siete maravillas naturales del mundo.</p><p>Fue formado por la erosión del río Colorado y sus afluentes durante millones de años, revelando capas de roca que cuentan la historia geológica del planeta.</p><p>Es Patrimonio de la Humanidad y recibe millones de visitantes al año. Las culturas indígenas lo consideran un lugar sagrado.</p>"
+          data-img-large="https://images.unsplash.com/photo-1474047683173-9c2e5c5f3d0e?w=1600&q=75">
+          <div class="card-media">
+            <img src="https://images.unsplash.com/photo-1474047683173-9c2e5c5f3d0e?w=600&q=60" alt="Gran Cañón del Colorado" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Lugar · Estados Unidos</span>
             <h3>Gran Cañón del Colorado</h3>
-            <p>Una de las siete maravillas naturales del mundo. Tallado por el río Colorado durante 6 millones de años, tiene 446 km de longitud y hasta 1.800 metros de profundidad.</p>
+            <p>Una de las siete maravillas naturales del mundo.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Empire-State-Building.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Edificio Empire State"
+          data-kicker="Monumento · Estados Unidos"
+          data-region="América del Norte"
+          data-short="Inaugurado en 1931 en Nueva York. Con 102 pisos y 381 metros, fue el edificio más alto del mundo durante 40 años."
+          data-extended="<p>El Empire State Building fue diseñado por William F. Lamb y se construyó en solo 410 días, a un ritmo de más de 4 pisos por semana.</p><p>Tiene 102 pisos y 381 metros de altura. Fue el edificio más alto del mundo desde 1931 hasta 1970, cuando lo superó la Torre Norte del World Trade Center.</p><p>Su aguja superior fue concebida originalmente como un punto de amarre para dirigibles, pero esa idea nunca se llevó a la práctica.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Empire-State-Building.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Empire-State-Building.jpg?width=600" alt="Empire State Building" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · Estados Unidos</span>
             <h3>Edificio Empire State</h3>
-            <p>Inaugurado en 1931 en Nueva York. Con 102 pisos y 381 metros, fue el edificio más alto del mundo durante 40 años. Su estilo Art Déco lo convirtió en símbolo de la ciudad.</p>
+            <p>Inaugurado en 1931 en Nueva York. 102 pisos de altura.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Denali,_Denali_National_Park_and_Preserve.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Monte Denali"
+          data-kicker="Lugar · Estados Unidos"
+          data-region="América del Norte"
+          data-short="La montaña más alta de América del Norte, con 6.190 metros."
+          data-extended="<p>Denali, también conocido como Monte McKinley hasta 2015, es la cumbre más alta de América del Norte, con 6.190 metros sobre el nivel del mar.</p><p>Su nombre original en lengua koyukon significa “el grande” o “el alto”. El presidente Barack Obama restauró el nombre tradicional en 2015.</p><p>Es un desafío para montañistas de todo el mundo. Su primera ascensión registrada fue en 1913 por Hudson Stuck y Harry Karstens.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Denali,_Denali_National_Park_and_Preserve.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Denali,_Denali_National_Park_and_Preserve.jpg?width=600" alt="Monte Denali" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Lugar · Estados Unidos</span>
             <h3>Monte Denali</h3>
-            <p>La montaña más alta de América del Norte, con 6.190 metros. Su nombre original en lengua koyukon es "Denali", que significa "el grande". Es un desafío para montañistas de todo el mundo.</p>
+            <p>La montaña más alta de América del Norte.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Niagara_falls_1.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Cataratas del Niágara"
+          data-kicker="Lugar · Estados Unidos / Canadá"
+          data-region="América del Norte"
+          data-short="Tres cascadas en la frontera entre Estados Unidos y Canadá."
+          data-extended="<p>Las Cataratas del Niágara están compuestas por tres cascadas: Horseshoe Falls, American Falls y Bridal Veil Falls.</p><p>La más grande, la Horseshoe Falls, tiene 51 metros de altura y un caudal de 2.800 metros cúbicos por segundo. Es la cascada más poderosa de América del Norte.</p><p>En 1848, el río Niágara se congeló parcialmente y las cataratas dejaron de fluir durante unas horas, un fenómeno excepcional. Es un ícono turístico y una fuente de energía hidroeléctrica desde el siglo XIX.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Niagara_falls_1.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Niagara_falls_1.jpg?width=600" alt="Cataratas del Niágara" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
-            <span class="kicker">Lugar · Estados Unidos/Canadá</span>
+            <span class="kicker">Lugar · Estados Unidos / Canadá</span>
             <h3>Cataratas del Niágara</h3>
-            <p>Tres cascadas en la frontera entre Estados Unidos y Canadá. La más grande, la Horseshoe Falls, tiene 51 metros de altura y un caudal de 2.800 metros cúbicos por segundo.</p>
+            <p>Tres cascadas en la frontera entre dos países.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/GuggenheimMuseumNewYork.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Museo Guggenheim (Nueva York)"
+          data-kicker="Museo · Estados Unidos"
+          data-region="América del Norte"
+          data-short="Diseñado por Frank Lloyd Wright y abierto en 1959. Su forma de espiral blanca revolucionó la arquitectura."
+          data-extended="<p>El Museo Guggenheim de Nueva York fue diseñado por Frank Lloyd Wright y abierto al público en 1959, seis meses después de la muerte del arquitecto.</p><p>Su forma de espiral blanca revolucionó la arquitectura de museos: el visitante sube en ascensor hasta la cúpula y desciende caminando por una rampa continua que va mostrando las obras.</p><p>Alberga una de las colecciones más importantes de arte moderno y contemporáneo, con obras de Kandinsky, Picasso, Pollock y otros grandes artistas.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/GuggenheimMuseumNewYork.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/GuggenheimMuseumNewYork.jpg?width=600" alt="Museo Guggenheim" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Museo · Estados Unidos</span>
             <h3>Museo Guggenheim (Nueva York)</h3>
-            <p>Diseñado por Frank Lloyd Wright y abierto en 1959. Su forma de espiral blanca revolucionó la arquitectura de museos. Alberga arte moderno y contemporáneo.</p>
+            <p>Diseñado por Frank Lloyd Wright, abierto en 1959.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Redwood_National_Park_REDW9378.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Bosque Nacional Redwood"
+          data-kicker="Lugar · Estados Unidos"
+          data-region="América del Norte"
+          data-short="Hogar de las secuoyas más altas del mundo, algunas de más de 100 metros."
+          data-extended="<p>El Bosque Nacional Redwood, en California, alberga las secuoyas rojas más altas del planeta. El árbol más alto conocido es “Hyperion”, que mide 115,85 metros.</p><p>Estos árboles pueden vivir más de 2.000 años. Su corteza gruesa y rica en taninos los protege del fuego y de los insectos.</p><p>Su conservación fue impulsada por la “Save the Redwoods League” a principios del siglo XX. Hoy es un ícono de la lucha por la protección de los bosques antiguos.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Redwood_National_Park_REDW9378.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Redwood_National_Park_REDW9378.jpg?width=600" alt="Bosque Nacional Redwood" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Lugar · Estados Unidos</span>
             <h3>Bosque Nacional Redwood</h3>
-            <p>Hogar de las secuoyas más altas del mundo, algunas de más de 100 metros. Estos árboles milenarios son un símbolo de la resistencia y la majestuosidad de la naturaleza.</p>
+            <p>Las secuoyas más altas del mundo.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Kennedy_Space_Center.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Centro Espacial Kennedy"
+          data-kicker="Lugar · Estados Unidos"
+          data-region="América del Norte"
+          data-short="Puerto espacial de la NASA en Florida. Desde aquí despegaron las misiones Apolo."
+          data-extended="<p>El Centro Espacial Kennedy, en Cabo Cañaveral, Florida, es el principal puerto espacial de la NASA. Fue inaugurado en 1962.</p><p>Desde aquí despegaron las misiones Apolo, incluyendo el Apolo 11 que llevó al ser humano a la Luna en 1969. También despegaron los transbordadores espaciales.</p><p>Ocupa 144.000 acres y cuenta con el Edificio de Ensamblaje de Vehículos, uno de los edificios más grandes del mundo. Es un símbolo de la exploración espacial.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Kennedy_Space_Center.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kennedy_Space_Center.jpg?width=600" alt="Centro Espacial Kennedy" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Lugar · Estados Unidos</span>
             <h3>Centro Espacial Kennedy</h3>
-            <p>Puerto espacial de la NASA en Florida. Desde aquí despegaron las misiones Apolo, los transbordadores espaciales y muchos de los lanzamientos más importantes de la historia.</p>
+            <p>Puerto espacial de la NASA en Florida.</p>
           </div>
         </article>
 
       </div>
-      <button class="ribbon-arrow next" aria-label="Siguiente">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59 10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
-      </button>
+      <button class="ribbon-arrow next" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59 10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg></button>
     </div>
   </section>
 
@@ -187,105 +398,181 @@
       <p>El legado maya, la herencia colonial y el arte contemporáneo de una región puente entre dos mundos.</p>
     </div>
     <div class="ribbon-wrap">
-      <button class="ribbon-arrow prev" aria-label="Anterior">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-      </button>
+      <button class="ribbon-arrow prev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
       <div class="ribbon">
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/%C3%81ngel_de_la_Libertad.JPG')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Ángel de la Libertad (San Salvador)"
+          data-kicker="Monumento · El Salvador"
+          data-region="América Central"
+          data-short="En la cima del Monumento a los Próceres (1911), el Ángel de la Libertad sostiene dos coronas de laurel."
+          data-extended="<p>El Ángel de la Libertad corona el Monumento a los Próceres, ubicado en la Plaza Libertad de San Salvador. Fue inaugurado en 1911 para conmemorar el centenario del Primer Grito de Independencia.</p><p>La escultura fue obra del artista italiano Francisco Durini. El ángel sostiene dos coronas de laurel, símbolo del triunfo de la libertad.</p><p>Es uno de los monumentos más representativos de la capital salvadoreña y un punto de referencia histórica y cívica del país.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/%C3%81ngel_de_la_Libertad.JPG?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/%C3%81ngel_de_la_Libertad.JPG?width=600" alt="Ángel de la Libertad" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · El Salvador</span>
             <h3>Ángel de la Libertad (San Salvador)</h3>
-            <p>En la cima del Monumento a los Próceres (1911), el Ángel de la Libertad sostiene dos coronas de laurel. Obra del italiano Francisco Durini, conmemora el centenario del Primer Grito de Independencia.</p>
+            <p>En la cima del Monumento a los Próceres, 1911.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/La_Catedral_Metropolitana_de_San_Salvador.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Catedral Metropolitana de San Salvador"
+          data-kicker="Monumento · El Salvador"
+          data-region="América Central"
+          data-short="Sede de la Arquidiócesis de San Salvador. Alberga los restos de Monseñor Óscar Romero."
+          data-extended="<p>La Catedral Metropolitana de San Salvador es la sede de la Arquidiócesis de San Salvador y uno de los edificios religiosos más importantes del país.</p><p>Su construcción moderna se completó en 1999, aunque su historia se remonta a siglos atrás. Fue destruida varias veces por terremotos e incendios.</p><p>En su cripta descansan los restos de Monseñor Óscar Romero, arzobispo y defensor de los derechos humanos, canonizado en 2018. Es un lugar de peregrinación y memoria.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/La_Catedral_Metropolitana_de_San_Salvador.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/La_Catedral_Metropolitana_de_San_Salvador.jpg?width=600" alt="Catedral Metropolitana de San Salvador" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · El Salvador</span>
             <h3>Catedral Metropolitana de San Salvador</h3>
-            <p>Sede de la Arquidiócesis de San Salvador. Fue construida en el siglo XX y es conocida por albergar los restos de Monseñor Óscar Romero, figura clave de la historia salvadoreña.</p>
+            <p>Sede de la Arquidiócesis y lugar de memoria.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Parque_Arqueol%C3%B3gico_Joya_de_Cer%C3%A9n.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Joya de Cerén"
+          data-kicker="Zona arqueológica · El Salvador"
+          data-region="América Central"
+          data-short="Conocida como la “Pompeya de América”. Aldea maya sepultada por una erupción volcánica hacia el año 600 d.C."
+          data-extended="<p>Joya de Cerén es un sitio arqueológico único: una aldea maya sepultada por las cenizas de una erupción volcánica alrededor del año 600 d.C.</p><p>La erupción preservó casas, utensilios, alimentos y hasta huellas humanas, ofreciendo una ventana excepcional a la vida cotidiana del pueblo maya.</p><p>Fue declarada Patrimonio de la Humanidad por la UNESCO en 1993. Se le llama “la Pompeya de América” por la forma en que quedó conservada.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Parque_Arqueol%C3%B3gico_Joya_de_Cer%C3%A9n.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Parque_Arqueol%C3%B3gico_Joya_de_Cer%C3%A9n.jpg?width=600" alt="Joya de Cerén" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Zona arqueológica · El Salvador</span>
             <h3>Joya de Cerén</h3>
-            <p>Conocida como la "Pompeya de América". Fue una aldea maya sepultada por una erupción volcánica alrededor del año 600 d.C. Su excelente conservación la hizo Patrimonio de la Humanidad.</p>
+            <p>La “Pompeya de América”, Patrimonio de la Humanidad.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Templo_tazumal.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Tazumal"
+          data-kicker="Zona arqueológica · El Salvador"
+          data-region="América Central"
+          data-short="El sitio arqueológico maya más importante de El Salvador."
+          data-extended="<p>Tazumal es el sitio arqueológico maya más importante de El Salvador. Se encuentra en Chalchuapa, departamento de Santa Ana.</p><p>Sus pirámides y estructuras ceremoniales datan del período Clásico Tardío (600-900 d.C.) y muestran influencia de Teotihuacán y de otras culturas mesoamericanas.</p><p>Fue excavado en la década de 1940 por el arqueólogo estadounidense Stanley Boggs. Hoy es un parque arqueológico abierto al público.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Templo_tazumal.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Templo_tazumal.jpg?width=600" alt="Tazumal" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Zona arqueológica · El Salvador</span>
             <h3>Tazumal</h3>
-            <p>El sitio arqueológico maya más importante de El Salvador. Sus pirámides y estructuras ceremoniales datan del período Clásico Tardío (600-900 d.C.).</p>
+            <p>El sitio arqueológico maya más importante del país.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Chichen-Itza.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Chichén Itzá"
+          data-kicker="Zona arqueológica · México"
+          data-region="América Central"
+          data-short="La ciudad maya más importante de Yucatán. Su pirámide El Castillo combina astronomía, religión y arte."
+          data-extended="<p>Chichén Itzá fue una de las ciudades más grandes y poderosas de la civilización maya. Se encuentra en la península de Yucatán, México.</p><p>Su pirámide principal, El Castillo (o Templo de Kukulkán), tiene 365 escalones, uno por cada día del año. Durante los equinoccios, la sombra de la serpiente desciende por sus escaleras.</p><p>Fue declarada Patrimonio de la Humanidad en 1988 y elegida como una de las Nuevas Siete Maravillas del Mundo en 2007.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Chichen-Itza.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Chichen-Itza.jpg?width=600" alt="Chichén Itzá" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Zona arqueológica · México</span>
             <h3>Chichén Itzá</h3>
-            <p>La ciudad maya más importante de Yucatán. Su pirámide El Castillo combina astronomía, religión y arte. Durante los equinoccios, la sombra de la serpiente desciende por sus escaleras.</p>
+            <p>La ciudad maya más importante de Yucatán.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Tikal-002.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Tikal"
+          data-kicker="Zona arqueológica · Guatemala"
+          data-region="América Central"
+          data-short="Una de las ciudades mayas más grandes y poderosas. Sus templos emergen de la selva petenera."
+          data-extended="<p>Tikal fue una de las ciudades más grandes y poderosas del mundo maya. Se encuentra en la selva del Petén, Guatemala.</p><p>Su Templo IV tiene 70 metros de altura y es una de las estructuras precolombinas más altas de América. El Templo I, conocido como “Gran Jaguar”, mide 47 metros.</p><p>Fue declarada Patrimonio de la Humanidad en 1979. Sus ruinas fueron utilizadas como escenario en la película Star Wars: Una Nueva Esperanza.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Tikal-002.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Tikal-002.jpg?width=600" alt="Tikal" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Zona arqueológica · Guatemala</span>
             <h3>Tikal</h3>
-            <p>Una de las ciudades mayas más grandes y poderosas. Sus templos emergen de la selva petenera. Tikal fue declarada Patrimonio de la Humanidad en 1979.</p>
+            <p>Una de las ciudades mayas más grandes y poderosas.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Antigua_-_Antigua_Guatemala.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Antigua Guatemala"
+          data-kicker="Ciudad colonial · Guatemala"
+          data-region="América Central"
+          data-short="Antigua fue la capital colonial de Guatemala. Sus iglesias y calles empedradas son Patrimonio de la Humanidad."
+          data-extended="<p>Antigua Guatemala fue la capital de la Capitanía General de Guatemala desde 1543 hasta 1776, cuando un terremoto la destruyó y la capital se trasladó a la Ciudad de Guatemala.</p><p>Sus iglesias, conventos y calles empedradas son un testimonio del barroco colonial español. Fue declarada Patrimonio de la Humanidad por la UNESCO en 1979.</p><p>Hoy es un destino turístico muy popular y un centro cultural y artístico de Guatemala.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Antigua_-_Antigua_Guatemala.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Antigua_-_Antigua_Guatemala.jpg?width=600" alt="Antigua Guatemala" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Ciudad colonial · Guatemala</span>
             <h3>Antigua Guatemala</h3>
-            <p>Antigua fue la capital colonial de Guatemala. Sus iglesias, conventos y calles empedradas son Patrimonio de la Humanidad y testimonio del barroco colonial.</p>
+            <p>Patrimonio de la Humanidad y joya del barroco colonial.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Izalco_Volcano_from_Santa_Ana_Volcano.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Volcán de Izalco"
+          data-kicker="Lugar · El Salvador"
+          data-region="América Central"
+          data-short="Conocido como “El Faro del Pacífico”. Nació en 1770 y estuvo activo hasta 1966."
+          data-extended="<p>El Volcán de Izalco, en El Salvador, es conocido como “El Faro del Pacífico” porque sus erupciones eran visibles desde barcos que navegaban por el océano Pacífico.</p><p>Nació en 1770 y estuvo activo durante casi dos siglos. Su última erupción fue en 1966.</p><p>Con 1.965 metros de altura, es uno de los volcanes más jóvenes de América Central y un ícono del paisaje salvadoreño.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Izalco_Volcano_from_Santa_Ana_Volcano.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Izalco_Volcano_from_Santa_Ana_Volcano.jpg?width=600" alt="Volcán de Izalco" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Lugar · El Salvador</span>
             <h3>Volcán de Izalco</h3>
-            <p>Conocido como "El Faro del Pacífico" porque sus erupciones eran visibles desde el océano. Nació en 1770 y estuvo activo hasta 1966. Es un ícono del paisaje salvadoreño.</p>
+            <p>“El Faro del Pacífico”. Activo durante casi dos siglos.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/LakeCoatepequeElSalvador.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Lago de Coatepeque"
+          data-kicker="Lugar · El Salvador"
+          data-region="América Central"
+          data-short="Un lago de origen volcánico en el cráter de un volcán extinguido."
+          data-extended="<p>El Lago de Coatepeque, en El Salvador, es un lago de origen volcánico que se formó en el cráter de un volcán extinguido hace miles de años.</p><p>Sus aguas cambian de color turquesa a verde esmeralda según la época del año, un fenómeno natural que atrae a visitantes y científicos.</p><p>Tiene una superficie de 24 km² y una profundidad de 115 metros. En su interior se encuentra la Isla Teopán, un antiguo cono volcánico. Es uno de los paisajes más bellos del país.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/LakeCoatepequeElSalvador.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/LakeCoatepequeElSalvador.jpg?width=600" alt="Lago de Coatepeque" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Lugar · El Salvador</span>
             <h3>Lago de Coatepeque</h3>
-            <p>Un lago de origen volcánico en el cráter de un volcán extinguido. Sus aguas cambian de color turquesa a verde esmeralda según la época del año. Es uno de los paisajes más bellos de El Salvador.</p>
+            <p>Un lago volcánico de aguas cambiantes.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Cop%C3%A1n_Ruinas_detail.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Ruinas de Copán"
+          data-kicker="Zona arqueológica · Honduras"
+          data-region="América Central"
+          data-short="Una de las ciudades mayas más importantes del período Clásico."
+          data-extended="<p>Copán fue una de las ciudades más importantes del período Clásico maya. Se encuentra en el occidente de Honduras, cerca de la frontera con Guatemala.</p><p>Es famosa por sus estelas y por su Escalinata Jeroglífica, considerada la “capilla Sixtina del arte maya”, con más de 2.500 glifos esculpidos.</p><p>Fue declarada Patrimonio de la Humanidad por la UNESCO en 1980. Sus ruinas revelan la sofisticación artística, astronómica y política de la civilización maya.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Cop%C3%A1n_Ruinas_detail.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Cop%C3%A1n_Ruinas_detail.jpg?width=600" alt="Ruinas de Copán" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Zona arqueológica · Honduras</span>
             <h3>Ruinas de Copán</h3>
-            <p>Una de las ciudades mayas más importantes del período Clásico. Famosa por sus estelas y su escalinata jeroglífica, considerada la "capilla Sixtina del arte maya".</p>
+            <p>La “capilla Sixtina del arte maya”.</p>
           </div>
         </article>
 
       </div>
-      <button class="ribbon-arrow next" aria-label="Siguiente">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59 10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
-      </button>
+      <button class="ribbon-arrow next" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59 10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg></button>
     </div>
   </section>
 
@@ -297,105 +584,181 @@
       <p>Templos milenarios, pinturas sutiles y monumentos que resisten el paso de los siglos.</p>
     </div>
     <div class="ribbon-wrap">
-      <button class="ribbon-arrow prev" aria-label="Anterior">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-      </button>
+      <button class="ribbon-arrow prev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
       <div class="ribbon">
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Great_wall_of_china.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Gran Muralla China"
+          data-kicker="Monumento · China"
+          data-region="Asia"
+          data-short="Más de 2.000 años de historia. Construida y reconstruida entre el siglo V a.C. y el siglo XVI."
+          data-extended="<p>La Gran Muralla China se extiende a lo largo de más de 21.000 kilómetros, sumando todas sus ramificaciones. Fue construida y reconstruida a lo largo de más de 2.000 años.</p><p>Su propósito era proteger al norte de China de las invasiones de pueblos nómadas. La sección mejor conservada es la de la dinastía Ming (1368-1644).</p><p>Fue declarada Patrimonio de la Humanidad por la UNESCO en 1987 y es una de las Nuevas Siete Maravillas del Mundo.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Great_wall_of_china.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Great_wall_of_china.jpg?width=600" alt="Gran Muralla China" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · China</span>
             <h3>Gran Muralla China</h3>
-            <p>Más de 2.000 años de historia. Construida y reconstruida entre el siglo V a.C. y el siglo XVI para proteger el norte de China. Símbolo de la tenacidad y la ingeniería china.</p>
+            <p>Más de 21.000 km de historia milenaria.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/TAJ_Mahal.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Taj Mahal"
+          data-kicker="Monumento · India"
+          data-region="Asia"
+          data-short="Mausoleo de mármol blanco construido entre 1631 y 1654 por el emperador mogol Shah Jahan."
+          data-extended="<p>El Taj Mahal es un mausoleo de mármol blanco construido por el emperador mogol Shah Jahan en memoria de su esposa favorita, Mumtaz Mahal, que murió al dar a luz.</p><p>Se tardaron 22 años en construirlo, entre 1632 y 1653, y participaron más de 20.000 obreros y artesanos. Fusiona arquitectura islámica, persa, india y turca.</p><p>Fue declarado Patrimonio de la Humanidad por la UNESCO en 1983 y es considerado una de las obras maestras de la arquitectura mundial.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/TAJ_Mahal.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/TAJ_Mahal.jpg?width=600" alt="Taj Mahal" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · India</span>
             <h3>Taj Mahal</h3>
-            <p>Mausoleo de mármol blanco construido entre 1631 y 1654 por el emperador mogol Shah Jahan en memoria de su esposa Mumtaz Mahal. Fusiona arquitectura islámica, persa, india y turca.</p>
+            <p>Mausoleo de mármol blanco por amor eterno.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Ajanta_Caves,_Aurangabad_s-25.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Cuevas de Ajanta"
+          data-kicker="Pintura · India"
+          data-region="Asia"
+          data-short="Murales budistas de los siglos II a.C. al VI d.C."
+          data-extended="<p>Las Cuevas de Ajanta son un conjunto de 30 cuevas talladas en roca volcánica, en el estado de Maharashtra, India.</p><p>Sus murales budistas, pintados entre los siglos II a.C. y VI d.C., son consideradas las obras maestras de la pintura india antigua. La cueva 1 alberga el famoso Bodhisattva Padmapani.</p><p>Fueron declaradas Patrimonio de la Humanidad por la UNESCO en 1983. Permanecen casi intactas gracias a su aislamiento geográfico.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Ajanta_Caves,_Aurangabad_s-25.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ajanta_Caves,_Aurangabad_s-25.jpg?width=600" alt="Cuevas de Ajanta" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Pintura · India</span>
             <h3>Cuevas de Ajanta</h3>
-            <p>Murales budistas de los siglos II a.C. al VI d.C. La cueva 1 alberga el famoso Bodhisattva Padmapani, obra maestra de la pintura india antigua.</p>
+            <p>Murales budistas de hace 2.000 años.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Kinkaku-ji,_Kyoto.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Kinkaku-ji (Pabellón Dorado)"
+          data-kicker="Arquitectura · Japón"
+          data-region="Asia"
+          data-short="Templo zen en Kioto cubierto de pan de oro. Construido en 1397."
+          data-extended="<p>Kinkaku-ji, el “Pabellón Dorado”, es un templo zen en Kioto, Japón. Fue construido en 1397 como villa de descanso del shogun Ashikaga Yoshimitsu y convertido en templo después de su muerte.</p><p>Sus dos pisos superiores están cubiertos de pan de oro. Originalmente fue quemado por un monje en 1950 y reconstruido en 1955.</p><p>Es uno de los templos más visitados de Japón y fue declarado Patrimonio de la Humanidad por la UNESCO en 1994.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Kinkaku-ji,_Kyoto.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kinkaku-ji,_Kyoto.jpg?width=600" alt="Kinkaku-ji" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Arquitectura · Japón</span>
             <h3>Kinkaku-ji (Pabellón Dorado)</h3>
-            <p>Templo zen en Kioto cubierto de pan de oro. Construido en 1397 como villa de descanso del shogun Ashikaga Yoshimitsu, luego convertido en templo. Es Patrimonio de la Humanidad.</p>
+            <p>Templo zen cubierto de pan de oro.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Forbidden_City,_Beijing.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Ciudad Prohibida (Pekín)"
+          data-kicker="Monumento · China"
+          data-region="Asia"
+          data-short="Palacio imperial de las dinastías Ming y Qing durante casi 500 años."
+          data-extended="<p>La Ciudad Prohibida fue el palacio imperial de China desde 1420 hasta 1912, durante las dinastías Ming y Qing. Se encuentra en el centro de Pekín.</p><p>Con 980 edificios y 8.700 habitaciones, es el complejo palaciego más grande del mundo. Está rodeada por una muralla y un foso que la separaban del resto de la ciudad.</p><p>Fue declarada Patrimonio de la Humanidad por la UNESCO en 1987. Hoy alberga el Museo del Palacio, que exhibe más de un millón de piezas imperiales.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Forbidden_City,_Beijing.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Forbidden_City,_Beijing.jpg?width=600" alt="Ciudad Prohibida" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · China</span>
             <h3>Ciudad Prohibida (Pekín)</h3>
-            <p>Palacio imperial de las dinastías Ming y Qing durante casi 500 años. Con 980 edificios y 8.700 habitaciones, es el complejo palaciego más grande del mundo.</p>
+            <p>El palacio imperial más grande del mundo.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/MountFuji.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Monte Fuji"
+          data-kicker="Lugar · Japón"
+          data-region="Asia"
+          data-short="El pico más alto de Japón, con 3.776 metros. Volcán activo y símbolo sagrado."
+          data-extended="<p>El Monte Fuji es el pico más alto de Japón, con 3.776 metros. Es un volcán activo, aunque su última erupción fue en 1707.</p><p>Su silueta casi perfectamente simétrica ha sido considerada sagrada desde tiempos antiguos. Ha inspirado a artistas como Hokusai y Hiroshige, y es un símbolo nacional de Japón.</p><p>Fue declarado Patrimonio de la Humanidad por la UNESCO en 2013. Cada año, más de 100.000 personas intentan escalarlo.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/MountFuji.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/MountFuji.jpg?width=600" alt="Monte Fuji" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Lugar · Japón</span>
             <h3>Monte Fuji</h3>
-            <p>El pico más alto de Japón, con 3.776 metros. Volcán activo y símbolo sagrado del país. Su silueta ha inspirado a artistas como Hokusai y Hiroshige.</p>
+            <p>El símbolo sagrado y volcánico de Japón.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Angkor_Wat,_Siem_Reap,_Cambodge.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Angkor Wat"
+          data-kicker="Monumento · Camboya"
+          data-region="Asia"
+          data-short="El templo más grande del mundo, construido en el siglo XII."
+          data-extended="<p>Angkor Wat es el templo más grande del mundo, construido en el siglo XII por el rey Suryavarman II en el actual territorio de Camboya.</p><p>Originalmente dedicado al dios hindú Vishnu, luego se convirtió en templo budista. Su diseño representa el monte Meru, el centro del universo en la cosmología hindú.</p><p>Fue declarado Patrimonio de la Humanidad por la UNESCO en 1992. Aparece en la bandera de Camboya, el único edificio nacional que figura en una bandera.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Angkor_Wat,_Siem_Reap,_Cambodge.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Angkor_Wat,_Siem_Reap,_Cambodge.jpg?width=600" alt="Angkor Wat" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · Camboya</span>
             <h3>Angkor Wat</h3>
-            <p>El templo más grande del mundo, construido en el siglo XII por el rey Suryavarman II. Originalmente dedicado a Vishnu, luego se convirtió en templo budista. Es Patrimonio de la Humanidad.</p>
+            <p>El templo más grande del mundo.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Sensoji.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Sensō-ji (Tokio)"
+          data-kicker="Templo · Japón"
+          data-region="Asia"
+          data-short="El templo más antiguo de Tokio, fundado en el año 645."
+          data-extended="<p>Sensō-ji es el templo más antiguo de Tokio, fundado en el año 645 según la leyenda. Está dedicado a Kannon, la bodhisattva de la compasión.</p><p>Su puerta Kaminarimon, con su enorme linterna roja, y la calle comercial Nakamise-dori son íconos de la cultura japonesa tradicional.</p><p>El templo fue destruido durante la Segunda Guerra Mundial y reconstruido como símbolo de renacimiento y paz.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Sensoji.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sensoji.jpg?width=600" alt="Sensō-ji" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Templo · Japón</span>
             <h3>Sensō-ji (Tokio)</h3>
-            <p>El templo más antiguo de Tokio, fundado en el año 645. Su puerta Kaminarimon y su calle comercial Nakamise-dori son íconos de la cultura japonesa tradicional.</p>
+            <p>El templo más antiguo de Tokio.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Borobudur_temple.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Borobudur"
+          data-kicker="Monumento · Indonesia"
+          data-region="Asia"
+          data-short="El templo budista más grande del mundo, construido en el siglo IX."
+          data-extended="<p>Borobudur es el templo budista más grande del mundo. Fue construido en el siglo IX en la isla de Java, Indonesia.</p><p>Tiene 9 plataformas, 504 estatuas de Buda y 2.672 paneles de relieve que narran la vida de Buda y las enseñanzas budistas.</p><p>Fue declarado Patrimonio de la Humanidad por la UNESCO en 1991. Es el monumento más visitado de Indonesia.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Borobudur_temple.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Borobudur_temple.jpg?width=600" alt="Borobudur" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · Indonesia</span>
             <h3>Borobudur</h3>
-            <p>El templo budista más grande del mundo, construido en el siglo IX. Tiene 9 plataformas, 504 estatuas de Buda y 2.672 paneles de relieve. Es Patrimonio de la Humanidad.</p>
+            <p>El templo budista más grande del mundo.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Petra,_Jordan.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Petra"
+          data-kicker="Ciudad antigua · Jordania"
+          data-region="Asia"
+          data-short="Ciudad nabatea tallada en roca rosada hace más de 2.000 años."
+          data-extended="<p>Petra es una ciudad nabatea tallada en roca rosada, en el sur de Jordania, hace más de 2.000 años. Fue la capital del reino nabateo.</p><p>Su fachada más famosa, Al-Khazneh (El Tesoro), es una obra maestra de la arquitectura antigua. La ciudad también cuenta con un teatro, tumbas reales y un sistema de canales de agua.</p><p>Fue declarada Patrimonio de la Humanidad por la UNESCO en 1985 y elegida como una de las Nuevas Siete Maravillas del Mundo en 2007. Fue escenario de la película Indiana Jones y la Última Cruzada.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Petra,_Jordan.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Petra,_Jordan.jpg?width=600" alt="Petra" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Ciudad antigua · Jordania</span>
             <h3>Petra</h3>
-            <p>Ciudad nabatea tallada en roca rosada hace más de 2.000 años. Su fachada más famosa, Al-Khazneh (El Tesoro), es una obra maestra de la arquitectura antigua. Es una de las Nuevas Siete Maravillas del Mundo.</p>
+            <p>La ciudad tallada en roca rosada.</p>
           </div>
         </article>
 
       </div>
-      <button class="ribbon-arrow next" aria-label="Siguiente">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59 10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
-      </button>
+      <button class="ribbon-arrow next" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59 10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg></button>
     </div>
   </section>
 
@@ -407,195 +770,351 @@
       <p>Del Renacimiento a la modernidad: catedrales, castillos, pinturas y monumentos que marcaron la historia del arte.</p>
     </div>
     <div class="ribbon-wrap">
-      <button class="ribbon-arrow prev" aria-label="Anterior">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-      </button>
+      <button class="ribbon-arrow prev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
       <div class="ribbon">
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/London_-_Tower_of_London_I.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Torre de Londres"
+          data-kicker="Monumento · Reino Unido"
+          data-region="Europa"
+          data-short="Fortaleza construida por Guillermo el Conquistador en 1078."
+          data-extended="<p>La Torre de Londres es una fortaleza construida en 1078 por Guillermo el Conquistador tras la conquista normanda de Inglaterra.</p><p>Ha sido palacio real, prisión, arsenal, casa de la moneda y joyería de la corona. Entre sus muros estuvieron prisioneros como Ana Bolena y Sir Walter Raleigh.</p><p>La Ceremonia de las Llaves se celebra cada noche desde hace más de 700 años. Fue declarada Patrimonio de la Humanidad por la UNESCO en 1988.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/London_-_Tower_of_London_I.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/London_-_Tower_of_London_I.jpg?width=600" alt="Torre de Londres" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · Reino Unido</span>
             <h3>Torre de Londres</h3>
-            <p>Fortaleza construida por Guillermo el Conquistador en 1078. Ha sido palacio real, prisión, arsenal y joyería. La Ceremonia de las Llaves se celebra cada noche desde hace 700 años.</p>
+            <p>Fortaleza, palacio y prisión desde 1078.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Eiffel_Tower,_Paris.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Torre Eiffel"
+          data-kicker="Monumento · Francia"
+          data-region="Europa"
+          data-short="Construida por Gustave Eiffel para la Exposición Universal de 1889."
+          data-extended="<p>La Torre Eiffel fue construida por el ingeniero Gustave Eiffel para la Exposición Universal de 1889 en París. Con 300 metros originales, fue la estructura más alta del mundo durante 41 años.</p><p>Fue muy criticada al principio por artistas e intelectuales, que la consideraban un “monstruo de hierro”. Hoy es el símbolo de París y de Francia.</p><p>Recibe cerca de 7 millones de visitantes al año, lo que la convierte en el monumento de pago más visitado del mundo.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Eiffel_Tower,_Paris.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Eiffel_Tower,_Paris.jpg?width=600" alt="Torre Eiffel" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · Francia</span>
             <h3>Torre Eiffel</h3>
-            <p>Construida por Gustave Eiffel para la Exposición Universal de 1889. Con 300 metros, fue la estructura más alta del mundo durante 41 años. Hoy es el símbolo de París.</p>
+            <p>El símbolo de París, construido en 1889.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Colosseum_seen_from_the_front.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Coliseo Romano"
+          data-kicker="Monumento · Italia"
+          data-region="Europa"
+          data-short="Anfiteatro construido en el siglo I d.C. por la dinastía Flavia."
+          data-extended="<p>El Coliseo es un anfiteatro construido en el siglo I d.C. por la dinastía Flavia. Fue el lugar donde se celebraban los espectáculos más populares de la antigua Roma.</p><p>Tenía capacidad para entre 50.000 y 80.000 espectadores. Albergó combates de gladiadores, cacerías de animales y naumaquias durante casi 500 años.</p><p>Fue declarado Patrimonio de la Humanidad por la UNESCO en 1980 y es uno de los monumentos más visitados del mundo.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Colosseum_seen_from_the_front.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Colosseum_seen_from_the_front.jpg?width=600" alt="Coliseo Romano" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · Italia</span>
             <h3>Coliseo Romano</h3>
-            <p>Anfiteatro construido en el siglo I d.C. por la dinastía Flavia. Con capacidad para 50.000 espectadores, albergó combates de gladiadores y espectáculos durante casi 500 años.</p>
+            <p>El anfiteatro más grande del mundo antiguo.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Mona_Lisa.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="La Gioconda (Mona Lisa)"
+          data-kicker="Pintura · Italia"
+          data-region="Europa"
+          data-short="Pintada por Leonardo da Vinci entre 1503 y 1519."
+          data-extended="<p>La Gioconda, también conocida como Mona Lisa, fue pintada por Leonardo da Vinci entre 1503 y 1519. Es el retrato más famoso del mundo.</p><p>Su sonrisa enigmática y su técnica del sfumato la convirtieron en un ícono universal. Se cree que la modelo fue Lisa Gherardini, esposa de un comerciante florentino.</p><p>Fue robada del Louvre en 1911 y recuperada en 1913. Hoy se exhibe detrás de un cristal blindado y es el principal atractivo del museo.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Mona_Lisa.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Mona_Lisa.jpg?width=600" alt="Mona Lisa" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Pintura · Italia</span>
             <h3>La Gioconda (Mona Lisa)</h3>
-            <p>Pintada por Leonardo da Vinci entre 1503 y 1519. Su sonrisa enigmática y su técnica del sfumato la convirtieron en la pintura más famosa del mundo. Se exhibe en el Louvre.</p>
+            <p>La pintura más famosa del mundo.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/The_Starry_Night.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="La Noche Estrellada"
+          data-kicker="Pintura · Países Bajos"
+          data-region="Europa"
+          data-short="Vincent van Gogh la pintó en 1889 desde el sanatorio de Saint-Rémy."
+          data-extended="<p>La Noche Estrellada es una de las pinturas más reconocibles de Vincent van Gogh. Fue pintada en 1889, mientras el artista estaba internado en el sanatorio de Saint-Rémy-de-Provence.</p><p>Representa la vista desde la ventana de su habitación, aunque añadió elementos imaginarios como la aldea y el campanario. Su cielo turbulento y sus colores vibrantes son inconfundibles.</p><p>Se conserva en el Museo de Arte Moderno (MoMA) de Nueva York desde 1941.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/The_Starry_Night.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/The_Starry_Night.jpg?width=600" alt="La Noche Estrellada" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Pintura · Países Bajos</span>
             <h3>La Noche Estrellada</h3>
-            <p>Vincent van Gogh la pintó en 1889 desde el sanatorio de Saint-Rémy. Su cielo turbulento y sus colores vibrantes la convirtieron en una de las obras más reproducidas del arte occidental.</p>
+            <p>Van Gogh, 1889. Un cielo que gira.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Sagrada_Familia_.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Sagrada Familia (Barcelona)"
+          data-kicker="Monumento · España"
+          data-region="Europa"
+          data-short="Obra maestra de Antoni Gaudí, en construcción desde 1882."
+          data-extended="<p>La Sagrada Familia es una basílica en Barcelona diseñada por Antoni Gaudí. Su construcción comenzó en 1882 y aún continúa hoy.</p><p>Gaudí dedicó los últimos años de su vida al proyecto, combinando formas naturales, geometría y simbolismo religioso. Su arquitectura es única en el mundo.</p><p>Fue declarada Patrimonio de la Humanidad por la UNESCO en 1984 y 2005. Fue consagrada por el Papa Benedicto XVI en 2010.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Sagrada_Familia_.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sagrada_Familia_.jpg?width=600" alt="Sagrada Familia" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · España</span>
             <h3>Sagrada Familia (Barcelona)</h3>
-            <p>Obra maestra de Antoni Gaudí, en construcción desde 1882. Su arquitectura combina formas naturales, geometría y simbolismo religioso. Es Patrimonio de la Humanidad.</p>
+            <p>La obra maestra inacabada de Gaudí.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/The_Acropolis_of_Athens_from_the_Pnyx_on_June_10,_2020.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Acrópolis de Atenas"
+          data-kicker="Monumento · Grecia"
+          data-region="Europa"
+          data-short="Conjunto de templos del siglo V a.C., presidido por el Partenón."
+          data-extended="<p>La Acrópolis de Atenas es un conjunto de templos y edificios construidos en el siglo V a.C., durante el gobierno de Pericles. Es el símbolo de la democracia ateniense y de la civilización occidental.</p><p>Su edificio principal, el Partenón, estaba dedicado a la diosa Atenea. Fue construido por los arquitectos Ictino y Calícrates bajo la dirección del escultor Fidias.</p><p>Fue declarada Patrimonio de la Humanidad por la UNESCO en 1987. Sus restos se conservan en el Museo de la Acrópolis.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/The_Acropolis_of_Athens_from_the_Pnyx_on_June_10,_2020.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/The_Acropolis_of_Athens_from_the_Pnyx_on_June_10,_2020.jpg?width=600" alt="Acrópolis de Atenas" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · Grecia</span>
             <h3>Acrópolis de Atenas</h3>
-            <p>Conjunto de templos del siglo V a.C., presidido por el Partenón. Es el símbolo de la democracia ateniense y la cuna de la civilización occidental. Patrimonio de la Humanidad.</p>
+            <p>La cuna de la civilización occidental.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Palace_of_Versailles_(28367159795).jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Palacio de Versalles"
+          data-kicker="Monumento · Francia"
+          data-region="Europa"
+          data-short="Residencia real de los Borbones desde 1682 hasta la Revolución Francesa."
+          data-extended="<p>El Palacio de Versalles fue la residencia de los reyes de Francia desde 1682, cuando Luis XIV trasladó la corte allí, hasta la Revolución Francesa en 1789.</p><p>Tiene 2.300 habitaciones, incluyendo la famosa Galería de los Espejos, de 73 metros de largo. Sus jardines fueron diseñados por André Le Nôtre.</p><p>Fue declarado Patrimonio de la Humanidad por la UNESCO en 1979. Es uno de los palacios más lujosos y visitados del mundo.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Palace_of_Versailles_(28367159795).jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Palace_of_Versailles_(28367159795).jpg?width=600" alt="Palacio de Versalles" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · Francia</span>
             <h3>Palacio de Versalles</h3>
-            <p>Residencia real de los Borbones desde 1682 hasta la Revolución Francesa. Sus jardines, la Galería de los Espejos y sus 2.300 habitaciones lo convierten en el palacio más lujoso de Europa.</p>
+            <p>El palacio más lujoso de Europa.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Louvre_Museum_Wikimedia_Commons.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Museo del Louvre"
+          data-kicker="Museo · Francia"
+          data-region="Europa"
+          data-short="El museo más visitado del mundo. Alberga más de 35.000 obras."
+          data-extended="<p>El Museo del Louvre, en París, es el museo más visitado del mundo. Fue inaugurado en 1793, durante la Revolución Francesa, en el antiguo palacio real.</p><p>Alberga más de 35.000 obras, incluyendo la Mona Lisa, la Venus de Milo y la Victoria de Samotracia. Su colección abarca desde la Antigüedad hasta mediados del siglo XIX.</p><p>Su pirámide de cristal, diseñada por I.M. Pei en 1989, se ha convertido en un ícono de París.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Louvre_Museum_Wikimedia_Commons.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Louvre_Museum_Wikimedia_Commons.jpg?width=600" alt="Museo del Louvre" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Museo · Francia</span>
             <h3>Museo del Louvre</h3>
-            <p>El museo más visitado del mundo. Antiguo palacio real, alberga más de 35.000 obras, incluida la Mona Lisa. Su pirámide de cristal, diseñada por I.M. Pei, es un ícono de París.</p>
+            <p>El museo más visitado del mundo.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Cologne_Cathedral_(55211056555).jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Catedral de Colonia"
+          data-kicker="Monumento · Alemania"
+          data-region="Europa"
+          data-short="Catedral gótica iniciada en 1248 y terminada en 1880."
+          data-extended="<p>La Catedral de Colonia es una iglesia gótica cuya construcción comenzó en 1248 y se completó en 1880, más de 600 años después.</p><p>Sus torres gemelas miden 157 metros, lo que la convierte en una de las iglesias más altas del mundo. Alberga el Relicario de los Reyes Magos, uno de los mayores tesoros medievales.</p><p>Fue declarada Patrimonio de la Humanidad por la UNESCO en 1996. Es el monumento más visitado de Alemania.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Cologne_Cathedral_(55211056555).jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Cologne_Cathedral_(55211056555).jpg?width=600" alt="Catedral de Colonia" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · Alemania</span>
             <h3>Catedral de Colonia</h3>
-            <p>Catedral gótica iniciada en 1248 y terminada en 1880. Sus torres de 157 metros la convierten en una de las iglesias más altas del mundo. Patrimonio de la Humanidad.</p>
+            <p>632 años para construir una catedral gótica.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/London_Bridge_from_the_Thames.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Puente de Londres"
+          data-kicker="Monumento · Reino Unido"
+          data-region="Europa"
+          data-short="El puente más antiguo de Londres, con versiones que datan de la época romana."
+          data-extended="<p>El Puente de Londres es el puente más antiguo de la ciudad, con antecedentes que se remontan a la época romana. El actual fue inaugurado en 1973.</p><p>Durante siglos fue la única conexión entre la City de Londres y Southwark, al sur del río Támesis. También tuvo casas y comercios sobre él en la Edad Media.</p><p>No debe confundirse con el Tower Bridge, el famoso puente con torres que aparece en postales.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/London_Bridge_from_the_Thames.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/London_Bridge_from_the_Thames.jpg?width=600" alt="Puente de Londres" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · Reino Unido</span>
             <h3>Puente de Londres</h3>
-            <p>El puente más antiguo de Londres, con versiones que datan de la época romana. El actual, inaugurado en 1973, conecta la City con Southwark. Es un símbolo de la ciudad.</p>
+            <p>El puente más antiguo de la ciudad.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/BigBen.JPG')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Big Ben"
+          data-kicker="Monumento · Reino Unido"
+          data-region="Europa"
+          data-short="El reloj más famoso del mundo. Su torre, llamada Elizabeth Tower, mide 96 metros."
+          data-extended="<p>Big Ben es el nombre de la campana principal del reloj de la torre del Palacio de Westminster, en Londres. La torre se llama oficialmente Elizabeth Tower desde 2012.</p><p>Mide 96 metros de altura y su campana pesa 13,5 toneladas. El reloj comenzó a funcionar en 1859.</p><p>Es uno de los símbolos más reconocibles del Reino Unido y del sistema parlamentario británico.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/BigBen.JPG?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/BigBen.JPG?width=600" alt="Big Ben" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · Reino Unido</span>
             <h3>Big Ben</h3>
-            <p>El reloj más famoso del mundo. Su torre, llamada Elizabeth Tower, mide 96 metros. La campana que da nombre al reloj pesa 13,5 toneladas y suena cada hora desde 1859.</p>
+            <p>El reloj más famoso del mundo.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Museo_del_prado.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Museo del Prado"
+          data-kicker="Museo · España"
+          data-region="Europa"
+          data-short="Uno de los museos más importantes del mundo."
+          data-extended="<p>El Museo del Prado, en Madrid, es uno de los museos más importantes del mundo. Fue inaugurado en 1819.</p><p>Alberga la colección más completa de pintura española, con obras de Velázquez, Goya y El Greco, además de maestros europeos como Tiziano, Rubens y El Bosco.</p><p>Su obra más famosa es Las Meninas, de Diego Velázquez. Recibe cerca de 3 millones de visitantes al año.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Museo_del_prado.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Museo_del_prado.jpg?width=600" alt="Museo del Prado" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Museo · España</span>
             <h3>Museo del Prado</h3>
-            <p>Uno de los museos más importantes del mundo. Alberga la colección más completa de pintura española, con obras de Velázquez, Goya y El Greco, además de maestros europeos.</p>
+            <p>La mejor colección de pintura española.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Sistine_chapel.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Capilla Sixtina"
+          data-kicker="Pintura · Ciudad del Vaticano"
+          data-region="Europa"
+          data-short="La capilla del Papa en el Vaticano. Su techo fue pintado por Miguel Ángel entre 1508 y 1512."
+          data-extended="<p>La Capilla Sixtina es la capilla privada del Papa en el Palacio Apostólico del Vaticano. Debe su nombre al Papa Sixto IV, que la hizo construir entre 1473 y 1481.</p><p>Su techo fue pintado por Miguel Ángel entre 1508 y 1512, y su pared del altar con El Juicio Final entre 1535 y 1541. La Creación de Adán es una de sus escenas más famosas.</p><p>En ella se celebra el cónclave que elige a cada nuevo Papa. Es uno de los mayores tesoros artísticos del mundo.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Sistine_chapel.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sistine_chapel.jpg?width=600" alt="Capilla Sixtina" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Pintura · Ciudad del Vaticano</span>
             <h3>Capilla Sixtina</h3>
-            <p>La capilla del Papa en el Vaticano. Su techo y su pared del altar fueron pintados por Miguel Ángel entre 1508 y 1541. La Creación de Adán y El Juicio Final son sus obras más famosas.</p>
+            <p>El techo pintado por Miguel Ángel.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Stonehenge_(14342774836).jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Stonehenge"
+          data-kicker="Monumento · Reino Unido"
+          data-region="Europa"
+          data-short="Monumento megalítico construido entre el 3000 y el 2000 a.C."
+          data-extended="<p>Stonehenge es un monumento megalítico en el sur de Inglaterra, construido en varias etapas entre el 3000 y el 2000 a.C.</p><p>Su función exacta sigue siendo un misterio. Se cree que pudo ser un lugar de culto, un observatorio astronómico o un cementerio. Sus piedras están alineadas con los solsticios.</p><p>Fue declarado Patrimonio de la Humanidad por la UNESCO en 1986. Es uno de los sitios arqueológicos más famosos del mundo.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Stonehenge_(14342774836).jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Stonehenge_(14342774836).jpg?width=600" alt="Stonehenge" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · Reino Unido</span>
             <h3>Stonehenge</h3>
-            <p>Monumento megalítico construido entre el 3000 y el 2000 a.C. Su función exacta sigue siendo un misterio. Es uno de los sitios arqueológicos más famosos del mundo.</p>
+            <p>El enigma megalítico de Inglaterra.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Castel_Sant%27Angelo1.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Castel Sant'Angelo"
+          data-kicker="Monumento · Italia"
+          data-region="Europa"
+          data-short="Mausoleo del emperador Adriano, construido en el siglo II d.C."
+          data-extended="<p>El Castel Sant'Angelo, en Roma, fue construido como mausoleo del emperador Adriano entre los años 123 y 139 d.C. Es una de las estructuras romanas mejor conservadas.</p><p>En la Edad Media fue transformado en fortaleza y residencia papal. Un pasadizo secreto lo conecta con el Vaticano, utilizado por los papas para refugiarse en tiempos de peligro.</p><p>Su nombre proviene de una leyenda: el arcángel Miguel se apareció en su cima para anunciar el fin de una plaga en el siglo VI. Hoy es un museo.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Castel_Sant%27Angelo1.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Castel_Sant%27Angelo1.jpg?width=600" alt="Castel Sant'Angelo" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · Italia</span>
             <h3>Castel Sant'Angelo</h3>
-            <p>Mausoleo del emperador Adriano, construido en el siglo II d.C. Luego fue fortaleza, residencia papal y prisión. Su nombre proviene de una leyenda sobre el arcángel Miguel.</p>
+            <p>Mausoleo romano convertido en fortaleza papal.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/The_Brandenburg_Gate.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Puerta de Brandeburgo"
+          data-kicker="Monumento · Alemania"
+          data-region="Europa"
+          data-short="Único acceso conservado de la antigua muralla de Berlín."
+          data-extended="<p>La Puerta de Brandeburgo es el único acceso conservado de la antigua muralla de Berlín. Fue construida entre 1788 y 1791 por el arquitecto Carl Gotthard Langhans.</p><p>Está coronada por la Cuádriga, una escultura de la diosa de la victoria conduciendo un carro tirado por cuatro caballos.</p><p>Durante la Guerra Fría quedó en tierra de nadie, junto al Muro de Berlín. Tras la caída del Muro en 1989, se convirtió en símbolo de la reunificación alemana.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/The_Brandenburg_Gate.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/The_Brandenburg_Gate.jpg?width=600" alt="Puerta de Brandeburgo" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · Alemania</span>
             <h3>Puerta de Brandeburgo</h3>
-            <p>Único acceso conservado de la antigua muralla de Berlín. Construida entre 1788 y 1791, se convirtió en símbolo de la reunificación alemana tras la caída del Muro en 1989.</p>
+            <p>Símbolo de la reunificación alemana.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/British_Museum_from_Great_Russell_Street,_London.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Museo Británico"
+          data-kicker="Museo · Reino Unido"
+          data-region="Europa"
+          data-short="Fundado en 1753, es uno de los museos más grandes e importantes del mundo."
+          data-extended="<p>El Museo Británico, en Londres, fue fundado en 1753 y abrió al público en 1759. Es uno de los museos más grandes e importantes del mundo.</p><p>Alberga más de 8 millones de objetos, incluyendo la Piedra Rosetta, los Mármoles del Partenón y la colección egipcia más completa fuera de Egipto.</p><p>Su Gran Atrio, diseñado por Norman Foster en 2000, es una de las estructuras más impresionantes de Londres. La entrada es gratuita.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/British_Museum_from_Great_Russell_Street,_London.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/British_Museum_from_Great_Russell_Street,_London.jpg?width=600" alt="Museo Británico" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Museo · Reino Unido</span>
             <h3>Museo Británico</h3>
-            <p>Fundado en 1753, es uno de los museos más grandes e importantes del mundo. Alberga la Piedra Rosetta, los Mármoles del Partenón y la colección egipcia más completa fuera de Egipto.</p>
+            <p>8 millones de objetos de la historia humana.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/St_Peter%27s_Basilica_in_Rome.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Basílica de San Pedro"
+          data-kicker="Monumento · Ciudad del Vaticano"
+          data-region="Europa"
+          data-short="La iglesia más grande del mundo, construida entre 1506 y 1626."
+          data-extended="<p>La Basílica de San Pedro es la iglesia más grande del mundo. Se encuentra en el Vaticano y fue construida entre 1506 y 1626.</p><p>En su diseño participaron algunos de los mayores arquitectos de la historia: Bramante, Miguel Ángel, Bernini y Maderno. Su cúpula, obra de Miguel Ángel, domina el skyline de Roma.</p><p>Puede albergar a más de 60.000 personas. Bajo el altar mayor se encuentra la tumba del apóstol San Pedro, primer Papa de la Iglesia católica.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/St_Peter%27s_Basilica_in_Rome.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/St_Peter%27s_Basilica_in_Rome.jpg?width=600" alt="Basílica de San Pedro" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · Ciudad del Vaticano</span>
             <h3>Basílica de San Pedro</h3>
-            <p>La iglesia más grande del mundo, construida entre 1506 y 1626. Diseñada por Bramante, Miguel Ángel, Bernini y Maderno. Su cúpula domina el skyline de Roma.</p>
+            <p>La iglesia más grande del mundo.</p>
           </div>
         </article>
 
-        <article class="card card-lg">
-          <div class="card-media" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Leaning_Tower_of_Pisa.jpg')"></div>
+        <article class="card card-lg museum-card"
+          data-title="Torre de Pisa"
+          data-kicker="Monumento · Italia"
+          data-region="Europa"
+          data-short="El campanario de la catedral de Pisa, famoso por su inclinación."
+          data-extended="<p>La Torre de Pisa es el campanario de la catedral de Pisa, en Italia. Su construcción comenzó en 1173 y se prolongó durante casi 200 años.</p><p>Comenzó a inclinarse durante su construcción debido a un suelo blando en un lado. Su inclinación máxima llegó a ser de 5,5 grados; hoy está estabilizada en unos 3,97 grados.</p><p>Galileo Galilei habría realizado aquí sus experimentos sobre la caída de los cuerpos. Fue declarada Patrimonio de la Humanidad por la UNESCO en 1987.</p>"
+          data-img-large="https://commons.wikimedia.org/wiki/Special:FilePath/Leaning_Tower_of_Pisa.jpg?width=1600">
+          <div class="card-media">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Leaning_Tower_of_Pisa.jpg?width=600" alt="Torre de Pisa" loading="lazy" decoding="async" />
+          </div>
           <div class="card-body">
             <span class="kicker">Monumento · Italia</span>
             <h3>Torre de Pisa</h3>
-            <p>El campanario de la catedral de Pisa, famoso por su inclinación de casi 4 grados. Comenzó a inclinarse durante su construcción en el siglo XII y hoy es Patrimonio de la Humanidad.</p>
+            <p>La torre que se inclina sin caer.</p>
           </div>
         </article>
 
       </div>
-      <button class="ribbon-arrow next" aria-label="Siguiente">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59 10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
-      </button>
+      <button class="ribbon-arrow next" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59 10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg></button>
     </div>
   </section>
 
@@ -614,6 +1133,24 @@
   </section>
 
 </main>
+
+<!-- ==================== MODAL ==================== -->
+<div class="museum-modal" id="museumModal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="museum-modal__inner">
+    <button class="museum-modal__close" aria-label="Cerrar" id="modalClose">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    </button>
+    <div class="museum-modal__media">
+      <img id="modalImage" src="" alt="" />
+    </div>
+    <div class="museum-modal__content">
+      <span class="museum-modal__kicker" id="modalKicker"></span>
+      <h2 class="museum-modal__title" id="modalTitle"></h2>
+      <p class="museum-modal__short" id="modalShort"></p>
+      <div class="museum-modal__extended" id="modalExtended"></div>
+    </div>
+  </div>
+</div>
 
 <footer class="site-footer">
   <div class="footer-grid">
@@ -652,6 +1189,7 @@
 </footer>
 
 <script>
+  // Menú móvil
   const toggle = document.querySelector('.nav-toggle');
   const nav = document.querySelector('.nav');
   toggle?.addEventListener('click', () => {
@@ -659,6 +1197,7 @@
     toggle.setAttribute('aria-expanded', open);
   });
 
+  // Flechas de ribbon
   document.querySelectorAll('.ribbon-wrap').forEach(wrap => {
     const ribbon = wrap.querySelector('.ribbon');
     const prev = wrap.querySelector('.ribbon-arrow.prev');
@@ -666,6 +1205,59 @@
     const step = 420;
     prev?.addEventListener('click', () => ribbon.scrollBy({ left: -step, behavior: 'smooth' }));
     next?.addEventListener('click', () => ribbon.scrollBy({ left: step, behavior: 'smooth' }));
+  });
+
+  // ============ MODAL DEL MUSEO ============
+  const modal = document.getElementById('museumModal');
+  const modalImage = document.getElementById('modalImage');
+  const modalKicker = document.getElementById('modalKicker');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalShort = document.getElementById('modalShort');
+  const modalExtended = document.getElementById('modalExtended');
+  const modalClose = document.getElementById('modalClose');
+
+  function openModal(card) {
+    modalImage.src = card.dataset.imgLarge || '';
+    modalImage.alt = card.dataset.title || '';
+    modalKicker.textContent = card.dataset.kicker || '';
+    modalTitle.textContent = card.dataset.title || '';
+    modalShort.textContent = card.dataset.short || '';
+    modalExtended.innerHTML = card.dataset.extended || '';
+
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    // limpiar después de la transición para liberar memoria
+    setTimeout(() => {
+      modalImage.src = '';
+      modalImage.alt = '';
+    }, 300);
+  }
+
+  document.querySelectorAll('.museum-card').forEach(card => {
+    card.addEventListener('click', () => openModal(card));
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openModal(card);
+      }
+    });
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('role', 'button');
+  });
+
+  modalClose?.addEventListener('click', closeModal);
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
   });
 </script>
 </body>
